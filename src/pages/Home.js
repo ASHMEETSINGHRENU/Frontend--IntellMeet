@@ -17,6 +17,7 @@ import {
   Search,
   Plus,
   ChevronRight,
+  BarChart,
   Loader2
 } from 'lucide-react';
 import { motion } from 'framer-motion';
