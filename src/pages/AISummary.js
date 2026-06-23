@@ -17,7 +17,6 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingSpinner from '../components/Common/LoadingSpinner';
 import toast from 'react-hot-toast';
-import { X } from 'lucide-react';
 
 const AISummary = () => {
   const { summaries, meetings, loading, loadData, createSummary } = useLocalData();
@@ -26,15 +25,9 @@ const AISummary = () => {
   const [selectedMeetingId, setSelectedMeetingId] = useState('');
   const [showGenerateModal, setShowGenerateModal] = useState(false);
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    if (summaries.length > 0 && !selectedSummary) {
-      setSelectedSummary(summaries[0]);
-    }
-  }, [summaries]);
+  const getCompletedMeetings = () => {
+    return meetings.filter(m => m.status === 'completed' && !m.hasSummary);
+  };
 
   const getMeetingTitle = (meetingId) => {
     if (!meetingId) return 'Unknown Meeting';
@@ -54,9 +47,16 @@ const AISummary = () => {
     return meeting ? meeting.duration || 30 : 30;
   };
 
-  const getCompletedMeetings = () => {
-    return meetings.filter(m => m.status === 'completed' && !m.hasSummary);
-  };
+  // Move loadData function inside useEffect dependencies
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  useEffect(() => {
+    if (summaries.length > 0 && !selectedSummary) {
+      setSelectedSummary(summaries[0]);
+    }
+  }, [summaries, selectedSummary]);
 
   const handleGenerateSummary = async () => {
     if (!selectedMeetingId) {
@@ -567,7 +567,5 @@ const AISummary = () => {
     </div>
   );
 };
-
-
 
 export default AISummary;
