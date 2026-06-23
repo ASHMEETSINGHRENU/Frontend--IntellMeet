@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { 
   Mail, 
@@ -17,7 +16,7 @@ import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  // const { login } = useAuth();
   
   const [loginData, setLoginData] = useState({
     email: "",
