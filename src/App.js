@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Home from './pages/Home'; // Your main dashboard page
 import Dashboard from './pages/Dashboard';
 import Meetings from './pages/Meetings';
 import Teams from './pages/Teams';
@@ -15,7 +16,7 @@ import MeetingRoom from './pages/MeetingRoom';
 import Layout from './components/Layout/Layout';
 import LoadingSpinner from './components/Common/LoadingSpinner';
 
-// Protected Route Component
+// Protected Route Component - Only accessible when authenticated
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   
@@ -24,7 +25,24 @@ const ProtectedRoute = ({ children }) => {
   }
   
   if (!isAuthenticated) {
+    // Redirect to login if not authenticated
     return <Navigate to="/login" />;
+  }
+  
+  return children;
+};
+
+// Public Route Component - Only accessible when NOT authenticated
+const PublicRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  
+  if (isAuthenticated) {
+    // Redirect to home if already authenticated
+    return <Navigate to="/home" />;
   }
   
   return children;
@@ -32,22 +50,31 @@ const ProtectedRoute = ({ children }) => {
 
 // App Routes
 const AppRoutes = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <Routes>
+      {/* Public Routes - Only accessible when NOT logged in */}
       <Route path="/login" element={
-        isAuthenticated ? <Navigate to="/dashboard" /> : <Login />
-      } />
-      <Route path="/register" element={
-        isAuthenticated ? <Navigate to="/dashboard" /> : <Register />
+        <PublicRoute>
+          <Login />
+        </PublicRoute>
       } />
       
-      <Route path="/" element={
+      <Route path="/register" element={
+        <PublicRoute>
+          <Register />
+        </PublicRoute>
+      } />
+      
+      {/* Protected Routes - Only accessible when logged in */}
+      <Route path="/home" element={
         <ProtectedRoute>
-          <Layout>
-            <Dashboard />
-          </Layout>
+          <Home />
         </ProtectedRoute>
       } />
       
@@ -112,6 +139,16 @@ const AppRoutes = () => {
           </Layout>
         </ProtectedRoute>
       } />
+      
+      {/* Default route - redirect based on auth status */}
+      <Route path="/" element={
+        isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />
+      } />
+      
+      {/* Catch all - redirect to home or login */}
+      <Route path="*" element={
+        <Navigate to={isAuthenticated ? "/home" : "/login"} />
+      } />
     </Routes>
   );
 };
@@ -128,6 +165,13 @@ function App() {
               background: '#1a1a2e',
               color: '#fff',
               border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '12px',
+            },
+            success: {
+              icon: '✅',
+            },
+            error: {
+              icon: '❌',
             },
           }}
         />
