@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BarChart } from 'lucide-react';
+
 import { 
   Video, 
   Sparkles, 
@@ -390,7 +392,5 @@ const DashboardContent = ({ user, handleLogout }) => {
   );
 };
 
-// Import BarChart for Home.js
-import { BarChart } from 'lucide-react';
 
 export default Home;
