@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]); // Fixed: Added loadData as dependency
 
   useEffect(() => {
     const statsData = getStats();
@@ -32,7 +32,7 @@ const Dashboard = () => {
       pending: statsData.pendingTasks || 0,
       team: statsData.totalMembers || 0,
     });
-  }, [meetings, tasks, teams]);
+  }, [meetings, tasks, teams, getStats]); // Fixed: Added getStats as dependency
 
   const handleJoinMeeting = (meetingId) => {
     navigate(`/meeting/${meetingId}`);

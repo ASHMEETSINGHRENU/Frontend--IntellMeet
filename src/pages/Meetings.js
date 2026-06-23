@@ -15,7 +15,7 @@ const Meetings = () => {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]); // Fixed: Added loadData as dependency
 
   const handleCreateMeeting = async (data) => {
     try {
