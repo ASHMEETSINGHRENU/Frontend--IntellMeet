@@ -121,7 +121,7 @@ const Register = () => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://backend-intellmeet.onrender.com/api/auth/register",
         formData
       );
 
