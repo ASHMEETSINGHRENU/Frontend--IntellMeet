@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children }) => {
   
   if (!isAuthenticated) {
     // Redirect to login if not authenticated
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
   
   return children;
@@ -59,7 +59,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes - Only accessible when NOT logged in */}
-      <Route path="/login" element={
+      <Route path="/" element={
         <PublicRoute>
           <Login />
         </PublicRoute>
