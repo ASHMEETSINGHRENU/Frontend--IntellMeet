@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BarChart } from 'lucide-react';
-
 import { 
   Video, 
   Sparkles, 
