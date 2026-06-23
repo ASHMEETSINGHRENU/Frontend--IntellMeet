@@ -16,7 +16,6 @@ import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  // const { login } = useAuth();
   
   const [loginData, setLoginData] = useState({
     email: "",
@@ -96,9 +95,9 @@ const Login = () => {
       localStorage.setItem("token", response.data.token);
       setSuccess(true);
       
-      // Redirect after success animation
+      // Redirect to /home after success animation
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/home"); // Changed from /dashboard to /home
       }, 1000);
       
     } catch (error) {
