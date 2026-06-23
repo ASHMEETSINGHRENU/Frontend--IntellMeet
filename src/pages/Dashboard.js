@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 const Dashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { meetings, tasks, teams, loading, loadData, getStats } = useLocalData();
+  const { meetings, tasks, teams, loading, getStats } = useLocalData();
   const [stats, setStats] = useState({
     upcoming: 0,
     completed: 0,
@@ -20,9 +20,7 @@ const Dashboard = () => {
     team: 0,
   });
 
-  useEffect(() => {
-    loadData();
-  }, [loadData]); // Fixed: Added loadData as dependency
+
 
   useEffect(() => {
     const statsData = getStats();
