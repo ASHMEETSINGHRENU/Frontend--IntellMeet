@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Home from './pages/Home'; // Your main dashboard page
+import Home from './pages/Home'; 
 import Dashboard from './pages/Dashboard';
 import Meetings from './pages/Meetings';
 import Teams from './pages/Teams';
@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children }) => {
   
   if (!isAuthenticated) {
     // Redirect to login if not authenticated
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
   
   return children;
@@ -59,7 +59,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes - Only accessible when NOT logged in */}
-      <Route path="/" element={
+      <Route path="/login" element={
         <PublicRoute>
           <Login />
         </PublicRoute>
