@@ -17,8 +17,8 @@ import {
   Search,
   Plus,
   ChevronRight,
-  BarChart,
-  Loader2
+  Loader2,
+  BarChart
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
