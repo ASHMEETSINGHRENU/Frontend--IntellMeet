@@ -12,7 +12,7 @@ const Teams = () => {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]); // Added loadData as dependency
 
   const handleCreateTeam = async (teamData) => {
     try {
