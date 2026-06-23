@@ -8,8 +8,6 @@ import {
   CheckCircle,
   Clock,
   Calendar,
-  Award,
-  Target,
   Activity,
   ArrowRight,
   Download,
@@ -20,9 +18,7 @@ import {
   LineChart,
   UserPlus,
   MessageSquare,
-  Star,
-  TrendingDown,
-  AlertCircle
+  Star
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
@@ -32,20 +28,14 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
-  LineChart as ReLineChart,
   Line,
   PieChart,
   Pie,
   Cell,
   AreaChart,
   Area,
-  ComposedChart,
-  Scatter,
-  RadialBarChart,
-  RadialBar,
-  Treemap
+  ComposedChart
 } from 'recharts';
 import LoadingSpinner from '../components/Common/LoadingSpinner';
 import toast from 'react-hot-toast';
@@ -65,16 +55,15 @@ const Analytics = () => {
     taskCompletionRate: 0,
   });
   const [timeRange, setTimeRange] = useState('week');
-  const [selectedMetric, setSelectedMetric] = useState('meetings');
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
 
   useEffect(() => {
     const statsData = getStats();
     setStats(statsData);
-  }, [meetings, tasks, teams]);
+  }, [meetings, tasks, teams, getStats]);
 
   // Generate sample data for charts
   const generateMeetingData = () => {
@@ -106,13 +95,15 @@ const Analytics = () => {
   };
 
   const generateTeamPerformance = () => {
-    const teamNames = teams.map(t => t.name);
-    return teams.length > 0 ? teams.map(team => ({
-      name: team.name.length > 10 ? team.name.slice(0, 10) + '...' : team.name,
-      meetings: Math.floor(Math.random() * 10) + 2,
-      tasks: Math.floor(Math.random() * 15) + 3,
-      completion: Math.floor(Math.random() * 40) + 60,
-    })) : [
+    if (teams.length > 0) {
+      return teams.map(team => ({
+        name: team.name.length > 10 ? team.name.slice(0, 10) + '...' : team.name,
+        meetings: Math.floor(Math.random() * 10) + 2,
+        tasks: Math.floor(Math.random() * 15) + 3,
+        completion: Math.floor(Math.random() * 40) + 60,
+      }));
+    }
+    return [
       { name: 'Product', meetings: 12, tasks: 45, completion: 85 },
       { name: 'Engineering', meetings: 8, tasks: 32, completion: 78 },
       { name: 'Marketing', meetings: 6, tasks: 28, completion: 92 },

@@ -8,14 +8,11 @@ import {
   Users, 
   Brain, 
   Calendar, 
-  ArrowRight,
-  Plus,
   Loader2,
   AlertCircle,
   Zap,
-  MessageSquare,
   ClipboardList,
-  TrendingUp
+  X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoadingSpinner from '../components/Common/LoadingSpinner';

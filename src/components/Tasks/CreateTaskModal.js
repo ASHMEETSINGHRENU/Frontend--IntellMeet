@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Users, Clock, Tag, AlertCircle, CheckCircle } from 'lucide-react';
+import { X, Users, Clock, Tag, CheckCircle } from 'lucide-react';
 
 const CreateTaskModal = ({ isOpen, onClose, onCreate, teams, members }) => {
   const [formData, setFormData] = useState({

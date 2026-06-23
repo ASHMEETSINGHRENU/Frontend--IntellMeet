@@ -572,7 +572,8 @@ export const analyticsStorage = {
   },
 };
 
-export default {
+// Create the service object
+const localStorageService = {
   meetingStorage,
   teamStorage,
   taskStorage,
@@ -580,3 +581,6 @@ export default {
   userStorage,
   analyticsStorage,
 };
+
+// Export the service as default
+export default localStorageService;

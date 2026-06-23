@@ -8,7 +8,6 @@ import {
   Globe,
   Mail,
   Building2,
-  Briefcase,
   Camera,
   Save,
   RefreshCw,
@@ -16,7 +15,6 @@ import {
   Smartphone,
   Monitor,
   Moon,
-  Sun,
   CheckCircle,
   AlertCircle,
   ChevronRight,
@@ -25,10 +23,6 @@ import {
   Edit2,
   X,
   Loader2,
-  Zap,
-  Star,
-  Award,
-  Clock,
   Calendar
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -41,7 +35,6 @@ const Settings = () => {
   const { user, logout } = useAuth();
   const { loadData } = useLocalData();
   const [activeTab, setActiveTab] = useState('profile');
-  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -151,14 +144,6 @@ const Settings = () => {
   };
 
   // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { staggerChildren: 0.05 }
-    }
-  };
-
   const itemVariants = {
     hidden: { opacity: 0, x: -20 },
     visible: { 
