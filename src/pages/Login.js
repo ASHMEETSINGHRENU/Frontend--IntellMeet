@@ -16,7 +16,7 @@ import {
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Use the login function from context
+  const { login } = useAuth();
   
   const [loginData, setLoginData] = useState({
     email: "",
@@ -88,12 +88,10 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Use the login function from AuthContext
       const result = await login(loginData.email, loginData.password);
       
       if (result.success) {
         setSuccess(true);
-        // Redirect after success animation
         setTimeout(() => {
           navigate("/home");
         }, 1000);
@@ -103,7 +101,7 @@ const Login = () => {
       }
       
     } catch (error) {
-      setError(error.response?.data?.message || "Login Failed. Please try again.");
+      setError("An unexpected error occurred. Please try again.");
       setLoading(false);
     }
   };
@@ -260,7 +258,7 @@ const Login = () => {
                   onFocus={() => setFocusedField('password')}
                   onBlur={() => setFocusedField(null)}
                   required
-                  minLength={3}
+                  minLength={6}
                 />
                 <button
                   type="button"

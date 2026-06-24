@@ -1,5 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import api from '../services/api';
+import axios from 'axios';
+
+// Use your backend URL
+const API_URL = 'https://backend-intellmeet.onrender.com/api';
 
 const AuthContext = createContext();
 
@@ -16,14 +19,18 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (!token) {
       setLoading(false);
+      setIsAuthenticated(false);
       return;
     }
 
     try {
-      const response = await api.get('/auth/profile');
+      const response = await axios.get(`${API_URL}/auth/profile`, {
+        headers: { Authorization: token }
+      });
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {
+      console.error('Error loading user:', error);
       localStorage.removeItem('token');
       setUser(null);
       setIsAuthenticated(false);
@@ -34,27 +41,36 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await axios.post(`${API_URL}/auth/login`, { 
+        email, 
+        password 
+      });
+      
       const { token } = response.data;
       localStorage.setItem('token', token);
+      
+      // Load user data after successful login
       await loadUser();
+      
       return { success: true };
     } catch (error) {
+      console.error('Login error:', error);
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Login failed' 
+        error: error.response?.data?.message || 'Login failed. Please try again.' 
       };
     }
   };
 
   const register = async (userData) => {
     try {
-      const response = await api.post('/auth/register', userData);
+      const response = await axios.post(`${API_URL}/auth/register`, userData);
       return { success: true, data: response.data };
     } catch (error) {
+      console.error('Registration error:', error);
       return { 
         success: false, 
-        error: error.response?.data?.message || 'Registration failed' 
+        error: error.response?.data?.message || 'Registration failed. Please try again.' 
       };
     }
   };
