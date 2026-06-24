@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { 
   Video, 
   Sparkles, 
@@ -21,38 +22,13 @@ import {
   BarChart
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-
-      try {
-        const response = await axios.get('https://backend-intellmeet.onrender.com/api/auth/profile', {
-          headers: { Authorization: token }
-        });
-        setUser(response.data);
-        setLoading(false);
-      } catch (error) {
-        localStorage.removeItem('token');
-        navigate('/login');
-      }
-    };
-
-    fetchUser();
-  }, [navigate]);
+  const { user, loading, logout } = useAuth(); // Get user from AuthContext
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    logout();
     navigate('/login');
   };
 
@@ -72,6 +48,8 @@ const Home = () => {
     return <DashboardContent user={user} handleLogout={handleLogout} />;
   }
 
+  // If no user, redirect to login
+  navigate('/login');
   return null;
 };
 
@@ -184,8 +162,8 @@ const DashboardContent = ({ user, handleLogout }) => {
               </div>
               {isSidebarOpen && (
                 <div className="flex-1 min-w-0">
-                  <p className="text-white text-sm font-medium truncate">{user?.name}</p>
-                  <p className="text-gray-400 text-xs truncate">{user?.email}</p>
+                  <p className="text-white text-sm font-medium truncate">{user?.name || 'User'}</p>
+                  <p className="text-gray-400 text-xs truncate">{user?.email || ''}</p>
                 </div>
               )}
               <button 
@@ -243,7 +221,7 @@ const DashboardContent = ({ user, handleLogout }) => {
               className="mb-8"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                Welcome back, {user?.name}! 👋
+                Welcome back, {user?.name || 'User'}! 👋
               </h2>
               <p className="text-gray-400">
                 Here's what's happening with your meetings today.
@@ -390,6 +368,5 @@ const DashboardContent = ({ user, handleLogout }) => {
     </div>
   );
 };
-
 
 export default Home;
