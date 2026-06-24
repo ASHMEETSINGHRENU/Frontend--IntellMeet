@@ -41,8 +41,8 @@ const PublicRoute = ({ children }) => {
   }
   
   if (isAuthenticated) {
-    // Redirect to home if already authenticated
-    return <Navigate to="/home" />;
+    // Redirect to meetings if already authenticated
+    return <Navigate to="/meetings" />;
   }
   
   return children;
@@ -142,12 +142,12 @@ const AppRoutes = () => {
       
       {/* Default route - redirect based on auth status */}
       <Route path="/" element={
-        isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />
+        isAuthenticated ? <Navigate to="`/meetings" /> : <Navigate to="/login" />
       } />
       
       {/* Catch all - redirect to home or login */}
       <Route path="*" element={
-        <Navigate to={isAuthenticated ? "/home" : "/login"} />
+        <Navigate to={isAuthenticated ? "/meetings" : "/login"} />
       } />
     </Routes>
   );
