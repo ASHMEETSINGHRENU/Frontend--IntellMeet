@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { 
   Mail, 
@@ -12,10 +13,10 @@ import {
   CheckCircle,
   AlertCircle
 } from "lucide-react";
-import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Use the login function from context
   
   const [loginData, setLoginData] = useState({
     email: "",
@@ -87,18 +88,19 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://backend-intellmeet.onrender.com/api/auth/login",
-        loginData
-      );
-
-      localStorage.setItem("token", response.data.token);
-      setSuccess(true);
+      // Use the login function from AuthContext
+      const result = await login(loginData.email, loginData.password);
       
-      // Redirect to /home after success animation
-      setTimeout(() => {
-        navigate("/home"); // Changed from /dashboard to /home
-      }, 1000);
+      if (result.success) {
+        setSuccess(true);
+        // Redirect after success animation
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      } else {
+        setError(result.error || "Login Failed. Please try again.");
+        setLoading(false);
+      }
       
     } catch (error) {
       setError(error.response?.data?.message || "Login Failed. Please try again.");
